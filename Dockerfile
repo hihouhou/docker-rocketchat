@@ -13,18 +13,32 @@ ENV ROCKETCHAT_VERSION 0.74.2
 
 # Update & install packages for installing rocketchat
 RUN apt-get update && \
-    apt-get install -y curl graphicsmagick build-essential nodejs #npm nodejs
+    apt-get install -y curl graphicsmagick build-essential wget git
 
-RUN apt-get install -y npm
+#Add yarn repository
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    curl https://install.meteor.com/ | sh 
 
-RUN npm install -g n
-RUN n 0.10.40
+# Update & install packages
+RUN apt-get update && \
+    apt-get install -y npm nodejs
+
+#RUN npm install -g n
+#RUN n 0.10.40
 
 #Download Stable version of Rocket.Chat
-RUN curl -L https://rocket.chat/releases/latest/download -o rocket.chat.tgz && \
-    tar zxvf rocket.chat.tgz && \
-    mv bundle Rocket.Chat && \
-    cd Rocket.Chat/programs/server && \
-    npm install
+RUN mkdir Rocket.Chat && \
+    cd Rocket.Chat && \
+    wget https://api.github.com/repos/RocketChat/Rocket.Chat/tarball/${ROCKETCHAT_VERSION} -O ${ROCKETCHAT_VERSION}.tar.gz && \
+    tar xf  ${ROCKETCHAT_VERSION}.tar.gz --strip-components=1 && \
+    meteor npm install
+#    ls && \
+#    mv bundle Rocket.Chat && \i
+#    cd Rocket.Chat/programs/server && \
+#    cd programs/server && \
+#    npm install
 
-CMD ["node", "/Rocket.Chat/main.js"]
+
+CMD ["meteor", " npm", "start"]
