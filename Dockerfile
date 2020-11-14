@@ -9,7 +9,7 @@ FROM debian:latest
 
 MAINTAINER hihouhou < hihouhou@hihouhou.com >
 
-ENV ROCKETCHAT_VERSION 3.7.2
+ENV ROCKETCHAT_VERSION 3.8.0
 
 # Update & install packages for installing rocketchat
 RUN apt-get update && \
