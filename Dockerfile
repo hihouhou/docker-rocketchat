@@ -9,7 +9,7 @@ FROM debian:latest
 
 LABEL org.opencontainers.image.authors="hihouhou < hihouhou@hihouhou.com >"
 
-ENV ROCKETCHAT_VERSION=8.4.1
+ENV ROCKETCHAT_VERSION=8.4.2
 
 # Update & install packages for installing rocketchat
 RUN apt-get update && \
